@@ -19,7 +19,7 @@ from django.core.files import File
 # new_image = Image.open(BytesIO(im))
 # new_image.show()
 
-def compress(image):
+def compress(image, filename):
     im = Image.open(image)
     # create a BytesIO object
     im_io = BytesIO()
@@ -28,9 +28,9 @@ def compress(image):
     # contents = im_io.getvalue()
     # image_filesize = len(contents)
     # print(f"After {image_filesize}")
-
+    new_filename = "compressed_"+ filename
     # create a django-friendly Files object
-    new_image = File(im_io, name=f"compressed.jpg")
+    new_image = File(im_io, name=new_filename)
     return new_image
 
 # img = Image.open(BytesIO(im_io))

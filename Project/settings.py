@@ -178,12 +178,12 @@ FILER_DEBUG = True
 FILER_STORAGES = {
     'public': {
         'main': {
-            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.short_uuid4',
+            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.complete_db_folder',
         },
     },
     'private': {
         'main': {
-            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.short_uuid4',
+            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.complete_db_folder',
         },
     },
 }

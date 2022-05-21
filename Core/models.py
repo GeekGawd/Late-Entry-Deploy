@@ -28,10 +28,9 @@ class Branch(models.Model):
     name = models.CharField(max_length=50, validators=[branch_name_re()])
     active = models.BooleanField(default=True)
     code = models.IntegerField(validators=[branch_code_re()])
-    venue = models.CharField(max_length=255)
 
     def __str__(self) -> str:
-        return self.venue
+        return self.name
     
     class Meta:
         verbose_name_plural = 'Branches'
@@ -128,6 +127,7 @@ class CustomImage(BaseImage):
         branch = meta_information[2]
         self.batch = Batch.objects.get(batch=int(request_batch))
         self.branch = Branch.objects.get(name=branch)
+        self.file = compress(self.file, self.original_filename)
         self.has_all_mandatory_data = self._check_validity()
         super().save(*args, **kwargs)
 

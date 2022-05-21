@@ -171,3 +171,19 @@ SIMPLE_JWT = {
 REST_FRAMEWORK = {
   'EXCEPTION_HANDLER': 'django_exception_handler.custom_exception_handler.handle_exception'
 }
+
+FILER_FILE_MODELS = ('Core.CustomImage','Core.FilerAdmin')
+FILER_DEBUG = True
+
+FILER_STORAGES = {
+    'public': {
+        'main': {
+            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.short_uuid4',
+        },
+    },
+    'private': {
+        'main': {
+            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.short_uuid4',
+        },
+    },
+}

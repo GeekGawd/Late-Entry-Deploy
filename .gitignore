@@ -102,8 +102,8 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
-.venv
+*.env
+*.venv
 env/
 venv/
 ENV/
@@ -127,3 +127,16 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# macos generated files
+.DS_Store
+
+# Project specific
+*\media\student
+*\student
+
+#django-filer that will store student image
+\filer_public
+
+#Pipenv specific
+Pipfile.lock

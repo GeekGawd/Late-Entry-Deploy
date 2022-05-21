@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 import os
-=======
->>>>>>> admin-image-upload
 import environ
+
 #Initialise
 env = environ.Env()
 #to read all env files
@@ -35,38 +33,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-=======
     'easy_thumbnails',
     'filer',
     'mptt',
->>>>>>> admin-image-upload
     'rest_framework',
     'rest_framework_simplejwt',
     'Auth',
     'Core',
-<<<<<<< HEAD
-=======
     'import_export',
->>>>>>> admin-image-upload
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-<<<<<<< HEAD
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'utils.custom_exception_handler.ExceptionMiddleware',
-=======
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
->>>>>>> admin-image-upload
 ]
 
 ROOT_URLCONF = 'Project.urls'
@@ -95,17 +80,12 @@ WSGI_APPLICATION = 'Project.wsgi.application'
 
 DATABASES = {
     'default': {
-<<<<<<< HEAD
-        'NAME':'db.sqlite3',
-        'ENGINE': 'django.db.backends.sqlite3',
-=======
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': env("POSTGRES_NAME"),
         'USER': env("POSTGRES_USER"),
         'PASSWORD': env("POSTGRES_PASSWORD"),
         'HOST': "127.0.0.1",
         'PORT': env("POSTGRES_PORT"),
->>>>>>> admin-image-upload
     }
 }
 
@@ -144,17 +124,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-<<<<<<< HEAD
 # All settings common to all environments
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-=======
-
-STATIC_URL = '/static/'
-STATIC_ROOT = "/static/"
-
->>>>>>> admin-image-upload
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -195,11 +168,6 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-<<<<<<< HEAD
 REST_FRAMEWORK = {
   'EXCEPTION_HANDLER': 'django_exception_handler.custom_exception_handler.handle_exception'
 }
-=======
-FILER_FILE_MODELS = ('Core.CustomImage','Core.FilerAdmin')
-FILER_DEBUG = True
->>>>>>> admin-image-upload

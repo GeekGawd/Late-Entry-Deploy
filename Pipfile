@@ -17,6 +17,7 @@ django-import-export = "*"
 django-multiupload = "*"
 easy-thumbnails = "*"
 django-filer = "*"
+django-filer-addons = {path = "C:/Users/suyas/Desktop/django-filer-addons"}
 
 [dev-packages]
 

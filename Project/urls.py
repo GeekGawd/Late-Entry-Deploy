@@ -12,9 +12,5 @@ urlpatterns = [
     path('staff/', staff_login.urls),
     path('auth/', include('Auth.urls')),
     path('entry/', include('Core.urls')),
-<<<<<<< HEAD
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-=======
     path('filer/', include('filer.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
->>>>>>> admin-image-upload

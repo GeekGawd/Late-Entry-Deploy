@@ -169,7 +169,7 @@ SIMPLE_JWT = {
 }
 
 REST_FRAMEWORK = {
-  'EXCEPTION_HANDLER': 'django_exception_handler.custom_exception_handler.handle_exception'
+  'EXCEPTION_HANDLER': 'utils.custom_exception_handler.handle_exception'
 }
 
 FILER_FILE_MODELS = ('Core.CustomImage','Core.FilerAdmin')

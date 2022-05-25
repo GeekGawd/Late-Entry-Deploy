@@ -1,3 +1,4 @@
+from multiprocessing.managers import BaseManager
 from django.db import models
 from Auth.models import User
 from Core.validators import student_no_re, student_name_re, branch_name_re, branch_code_re
@@ -11,6 +12,9 @@ from Core.utils import compress
 from filer.models.abstract import BaseImage
 from filer.models.filemodels import File
 from django.urls import reverse
+
+class StudentManager(BaseManager):
+    pass
 
 class Operator(User):
 
@@ -60,6 +64,8 @@ class Student(models.Model):
     name = models.CharField(max_length=255, validators=[student_name_re()])
     branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True)
     batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True)
+
+    objects = StudentManager()
     
     def late_entry_count(self):
         return self.late_entry.all().count()

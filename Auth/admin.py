@@ -40,10 +40,7 @@ class LateEntryResource(resources.ModelResource):
 
 class LateEntryAdmin(ImportExportModelAdmin):
     resource_class = LateEntryResource
-    # readonly_fields = ('timestamp',)
-    # list_display = ('student', 'venue')
-    # search_fields = ('student', 'venue')
-    # list_filter = ('timestamp',)
+    list_display = ('student', 'venue', 'timestamp')
 
 # class StudentImageAdmin(ImportMixin, admin.ModelAdmin):
 #     resource_class = StudentImageResource

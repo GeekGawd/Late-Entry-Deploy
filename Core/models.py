@@ -1,9 +1,10 @@
 from multiprocessing.managers import BaseManager
 from django.db import models
+from pytz import timezone
 from Auth.models import User
 from Core.validators import student_no_re, student_name_re, branch_name_re, branch_code_re
 from unicodedata import name
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 from Auth.models import User
 from django.db.models import CheckConstraint, Q
@@ -12,9 +13,17 @@ from Core.utils import compress
 from filer.models.abstract import BaseImage
 from filer.models.filemodels import File
 from django.urls import reverse
+from django.db.models import Q
+from django.utils import timezone
 
-class StudentManager(BaseManager):
-    pass
+class StudentManager(models.Manager):
+    
+    def late_entry_exists(self, data):
+        try:
+            return LateEntry.objects.filter(Q(timestamp__date=timezone.now()) | 
+                            Q(student=Student.objects.get(student_no=data['student_no']))).exists()
+        except ObjectDoesNotExist:
+                return True
 
 class Operator(User):
 
@@ -77,15 +86,15 @@ class Student(models.Model):
         return self.name
 
 class LateEntry(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='late_entry')
+    timestamp = models.DateTimeField()
     venue = models.ForeignKey(Venue, on_delete=models.PROTECT, related_name="late_entry")
 
     class Meta:
         verbose_name_plural = 'Late Entries'
     
     def __str__(self):
-        return str(self.student.name)+'_'+str(self.student.st_no)
+        return str(self.student.name)+'_'+str(self.student.student_no)
 
 class StudentImage(models.Model):
     def get_image_path(self, filename):

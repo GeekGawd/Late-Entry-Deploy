@@ -59,20 +59,28 @@ class Scan(APIView):
 #                     objs.append(LateEntry(student_id=student_no,venue_id=data['venue']))
 #             else:
 #                 return Response(status=461)
-#         success = len(LateEntry.objects.bulk_create(objs=objs, ignore_conflicts=True))
-#         failed = len(entry_list)-success
-#         return Response({'message':f'{success} Late entries registered {failed} failed. Student number list {valid_list}',
-#                         "result": {"success":success,"failed":failed,"data":valid_list},
-#                         "status": True,
-#                         "status_code": 201},
-#                         status=status.HTTP_201_CREATED)
+        # success = len(LateEntry.objects.bulk_create(objs=objs, ignore_conflicts=True))
+        # failed = len(entry_list)-success
+        # return Response({'message':f'{success} Late entries registered {failed} failed. Student number list {valid_list}',
+        #                 "result": {"success":success,"failed":failed,"data":valid_list},
+        #                 "status": True,
+        #                 "status_code": 201},
+        #                 status=status.HTTP_201_CREATED)
 
 class Bulk(generics.GenericAPIView,
            mixins.CreateModelMixin):
 
     def post(self, request, *args, **kwargs):
         entries = request.data['entry']
-        # student_no = [data['student_id'] for data in entries if ]
+        student_entries = [LateEntry(student_id=data['student_no'],timestamp=data['timestamp'],\
+            venue_id=data['venue']) for data in entries if not Student.objects.late_entry_exists(data)]
+        success = len(LateEntry.objects.bulk_create(objs=student_entries, ignore_conflicts=True))
+        failed = len(entries)-success
+        return Response({'message':f'{success} Late entries registered {failed} failed.',
+                        "result": {"success":success,"failed":failed},
+                        "status": True,
+                        "status_code": 201},
+                        status=status.HTTP_201_CREATED)
         
 
 
@@ -80,7 +88,7 @@ class Cache(generics.ListAPIView):
     serializer_class = CacheSerializer
 
     def get_queryset(self):
-        return Student.objects.all().iterator()
+        return Student.objects.all()
 
 class GetVenue(generics.ListAPIView):
     serializer_class = VenueSerializer

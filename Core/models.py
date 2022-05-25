@@ -10,7 +10,7 @@ from filer.fields.image import FilerFileField, FilerImageField
 from Core.utils import compress
 from filer.models.abstract import BaseImage
 from filer.models.filemodels import File
-from django.urls import NoReverseMatch, reverse
+from django.urls import reverse
 
 class Operator(User):
 
@@ -118,15 +118,14 @@ class CustomImage(BaseImage):
     def get_admin_delete_url(self):
         return reverse(
             'admin:{0}_{1}_delete'.format( "filer","file",),
-            args=(self.pk,))
+            args=(self.pk,)
+        )
 
     def save(self, *args, **kwargs):
         folder = str(self.folder)
         meta_information = folder.rsplit('/')
         request_batch = meta_information[1]
-        branch = meta_information[2]
         self.batch = Batch.objects.get(batch=int(request_batch))
-        self.branch = Branch.objects.get(name=branch)
         self.file = compress(self.file, self.original_filename)
         self.has_all_mandatory_data = self._check_validity()
         super().save(*args, **kwargs)

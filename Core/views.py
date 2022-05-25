@@ -70,13 +70,20 @@ class Bulk(APIView):
 
 class Cache(generics.ListAPIView):
     serializer_class = CacheSerializer
-    
-    def get_queryset(self):
-        return Student.objects.all()
 
+    def get_queryset(self):
+        return Student.objects.all().iterator()
 
 class GetVenue(generics.ListAPIView):
     serializer_class = VenueSerializer
     
-    def get_queryset(self):
-        return Venue.objects.filter(state=True)
+class NestedStudentVenueView(APIView):
+
+    def get(self, request):
+        qs_student = Student.objects.all()
+        qs_venue = Venue.objects.filter(state=True)
+
+        student_data = CacheSerializer(qs_student, many=True).data
+        venue_data = VenueSerializer(qs_venue, many=True).data
+
+        return Response({"student": student_data, "venue": venue_data})

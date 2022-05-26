@@ -140,3 +140,6 @@ dmypy.json
 
 #Pipenv specific
 Pipfile.lock
+
+#load-testing related
+locustfile.py

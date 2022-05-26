@@ -15,15 +15,19 @@ from filer.models.filemodels import File
 from django.urls import reverse
 from django.db.models import Q
 from django.utils import timezone
+from datetime import datetime
 
 class StudentManager(models.Manager):
     
-    def late_entry_exists(self, data):
+    def late_entry_valid(self, data):
+        timestamp = datetime.strptime(data['timestamp'], '%Y-%m-%d %H:%M:%S.%f%z')
         try:
-            return LateEntry.objects.filter(Q(timestamp__date=timezone.now()) | 
-                            Q(student=Student.objects.get(student_no=data['student_no']))).exists()
+            result = (LateEntry.objects.filter(Q(timestamp__date=timestamp) & 
+                            Q(student=Student.objects.get(student_no=data['student_no']))).exists()\
+                            or timestamp > timezone.now())
+            return not result
         except ObjectDoesNotExist:
-                return True
+                return False
 
 class Operator(User):
 

@@ -59,13 +59,13 @@ class Scan(APIView):
 #                     objs.append(LateEntry(student_id=student_no,venue_id=data['venue']))
 #             else:
 #                 return Response(status=461)
-        # success = len(LateEntry.objects.bulk_create(objs=objs, ignore_conflicts=True))
-        # failed = len(entry_list)-success
-        # return Response({'message':f'{success} Late entries registered {failed} failed. Student number list {valid_list}',
-        #                 "result": {"success":success,"failed":failed,"data":valid_list},
-        #                 "status": True,
-        #                 "status_code": 201},
-        #                 status=status.HTTP_201_CREATED)
+#         success = len(LateEntry.objects.bulk_create(objs=objs, ignore_conflicts=True))
+#         failed = len(entry_list)-success
+#         return Response({'message':f'{success} Late entries registered {failed} failed. Student number list {valid_list}',
+#                         "result": {"success":success,"failed":failed,"data":valid_list},
+#                         "status": True,
+#                         "status_code": 201},
+#                         status=status.HTTP_201_CREATED)
 
 class Bulk(generics.GenericAPIView,
            mixins.CreateModelMixin):
@@ -73,7 +73,7 @@ class Bulk(generics.GenericAPIView,
     def post(self, request, *args, **kwargs):
         entries = request.data['entry']
         student_entries = [LateEntry(student_id=data['student_no'],timestamp=data['timestamp'],\
-            venue_id=data['venue']) for data in entries if not Student.objects.late_entry_exists(data)]
+            venue_id=data['venue']) for data in entries if Student.objects.late_entry_valid(data)]
         success = len(LateEntry.objects.bulk_create(objs=student_entries, ignore_conflicts=True))
         failed = len(entries)-success
         return Response({'message':f'{success} Late entries registered {failed} failed.',

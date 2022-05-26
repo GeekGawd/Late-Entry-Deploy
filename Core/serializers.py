@@ -39,10 +39,10 @@ class CacheSerializer(serializers.ModelSerializer):
     def get_student_image(self, instance):
         try:
             student_img_url = Student.objects.get(student_no=instance.student_no).student_image.url
-            return slugify(student_img_url)
+            return student_img_url
         except ObjectDoesNotExist:
             return None
-            
+
 class VenueSerializer(serializers.ModelSerializer):
 
     class Meta:

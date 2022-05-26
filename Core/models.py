@@ -119,7 +119,7 @@ class StudentImage(models.Model):
 
 class CustomImage(BaseImage):
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE, null=True)
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, null=True)
+    student = models.OneToOneField(Student, on_delete=models.CASCADE,related_name="student_image")
 
     class Meta(BaseImage.Meta):
         app_label = 'Core'
@@ -145,6 +145,7 @@ class CustomImage(BaseImage):
         meta_information = folder.rsplit('/')
         request_batch = meta_information[1]
         self.batch = Batch.objects.get(batch=int(request_batch))
+        self.student = Student.objects.get(student_no=int(self.original_filename.split('.')[0]))
         self.file = compress(self.file, self.original_filename)
         self.has_all_mandatory_data = self._check_validity()
         super().save(*args, **kwargs)

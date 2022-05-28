@@ -1,0 +1,171 @@
+.fg-related-widget-wrapper {
+    float:left !important;
+    box-sizing: border-box;
+    width: 100%;
+    margin-left: -170px;
+    padding-left: 170px;
+}
+
+.filer-gui-file-widget {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+    width: 100%;
+
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    .fg-message {
+        display: none;
+        margin-bottom: 1em;
+        color: #ba2121;
+    }
+
+    .visible {
+        display: block;
+    }
+
+    .fg-widget {
+        position: relative;
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 35px;
+        padding: 0 380px 0 0;
+    }
+
+    .widget-column {
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
+
+    .rawid-field {
+        display: none;
+        padding: 0 20px 0 0;
+    }
+
+    .preview {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
+        overflow: hidden;
+
+        .label {
+            margin: 0 0 0 10px;
+        }
+    }
+
+    .icon-img {
+        height: 35px;
+        width: auto;
+    }
+
+    .info {
+        width: 300px;
+        margin: 0;
+        padding: 0 20px;
+    }
+
+    .fg-tools {
+        position: absolute;
+        right: 200px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+        padding: 0 10px;
+
+        .label {
+            display: none;
+        }
+    }
+
+    .uploader {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 200px;
+        height: 100%;
+        min-height: 35px;
+        margin: 0;
+        padding: 0 0;
+        background-color: #fdfdfd;
+        border: 1px solid #ccc;
+        transition: width 0.5s;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            width: 1px;
+            height: 100%;
+            margin-left: -1px;
+        }
+    }
+
+    .file-type-error {
+        background-color: #CC3434;
+
+        .dz-file-type-error {
+            display: block;
+        }
+
+        .dz-message {
+            display: none;
+        }
+    }
+
+    .dz-messages {
+        display: inline-block;
+        width: 100%;
+        vertical-align: middle;
+        color: #999;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .dz-file-type-error {
+        display: none;
+        margin: 4px;
+        color: #fff;
+        font-size: 1.25em;
+    }
+
+    .dz-accepted {
+        width: 100%;
+
+        .dz-messages {
+            display: none;
+        }
+    }
+
+    .dz-preview {
+        display: inline-block;
+        //display: none;
+        vertical-align: middle;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .dz-progress {
+        position: relative;
+        width: 100%;
+        height: 5px;
+        margin: 4px 0 0;
+    }
+
+    .dz-upload {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+        height: 100%;
+        width: 10px;
+        background-color: #79aec8;
+    }
+}

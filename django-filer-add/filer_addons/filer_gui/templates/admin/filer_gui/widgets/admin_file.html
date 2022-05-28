@@ -1,0 +1,68 @@
+{% spaceless %}
+{% load i18n filer_admin_tags static thumbnail filer_gui_tags %}
+
+
+<div class="filer-gui-file-widget"
+        data-file-type="{{ file_type }}"
+        data-file-detail-url="{% url 'admin:file_detail_json_for_id' %}"
+        data-file-upload-url="{% url 'admin:file_upload' %}"
+        data-text-no-file="{% trans 'No file' %}">
+    <div class="fg-messages">
+        <div class="fg-message upload error">{% trans "Bummer, your file didn't find its ways to the server" %}</div>
+        <div class="fg-message wrong-file-type">{% trans "Wrong file type, upload/choose another file" %}</div>
+    </div>
+    <div class="fg-widget">
+        <div class="widget-column rawid-field">{{ rawid_input }}</div>
+        <div class="widget-column preview">
+            {% block preview %}
+                {% if file_object %}
+                    {% filer_gui_file_thumb file as icon %}
+                    {% if file_object.icons.32 %}
+                        <img class="icon-img" src="{{ icon }}" onerror="if (!this.src=='{{ file_object.icons.48 }}') { this.src='{{ file_object.icons.48 }}' }}" alt="{{ file_object.label }}">
+                    {% else %}
+                        <span class="missing-file">{% trans 'File is missing' %}</span>
+                    {% endif %}
+                {% else %}
+                    <span class="no-file">{% trans 'No file' %}</span>
+                {% endif %}
+            {% endblock %}
+        </div>
+        <div class="widget-column fg-label-tools">
+            <span class="label">{{ file_object.label }}</span>
+            <div class="fg-tools">
+                <a title="{% trans 'Remove File' %}" id="clear_id_{{ widget.name }}" class="button fg-button remove-related-filer inactive">
+                    {% include 'admin/filer_gui/svg/icon-remove.svg' %}
+                    <span class="label">{% trans 'Remove File' %}</span>
+                </a>
+                <a title="{% trans 'Edit File' %}" id="edit_id_{{ widget.name }}" class="button fg-button edit-related-filer inactive" data-href-template="{{ edit_url_template }}">
+                    {% include 'admin/filer_gui/svg/icon-edit.svg' %}
+                    <span class="label">{% trans 'Edit File' %}</span>
+                </a>
+                <a title="{% trans 'Choose File' %}" id="lookup_id_{{ widget.name }}" class="button fg-button related-lookup-filer" href="{{ lookup_url }}">
+                    {% include 'admin/filer_gui/svg/icon-lookup.svg' %}
+                    <span class="label">{% trans 'Choose File' %}</span>
+                </a>
+                <a title="{% trans 'Upload File' %}" class="button fg-button add-related-filer">
+                    {% include 'admin/filer_gui/svg/icon-upload.svg' %}
+                    <span class="label">{% trans 'Upload File' %}</span>
+                </a>
+            </div>
+        </div>
+        <div title="{% trans 'Drop file, or click to select from your computer' %}" id="upload_id_{{ widget.name }}" class="widget-column uploader widget-uploader{{ dropzone_css_class }}">
+            <div class="dz-messages">
+                <div class="dz-message">{% trans 'Drop file here' %}</div>
+                <div class="dz-file-type-error">{% trans 'Wrong file type, drop another file' %}</div>
+            </div>
+        </div>
+        <div class="dz-preview-template">
+            <div class="dz-preview dz-file-preview hidden">
+                <span class="dz-file-preview">
+                    <div class="dz-thumbnail"></div>
+                    <span data-dz-name class="dz-name"></span>
+                    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endspaceless %}

@@ -1,0 +1,28 @@
+.fg-button,
+a.fg-button {
+    width: 16px;
+    height: 16px;
+    padding: 8px 4px;
+    cursor: pointer;
+
+    .svg-icon {
+        fill: #000;
+    }
+
+    &.add-related-filer {
+        background-color: green;
+        background-image: url(../../img/icon_addlink.gif);
+    }
+
+    &.edit-related-filer {
+        background-image: url(../../img/icon_changelink.gif);
+    }
+
+    &.remove-related-filer {
+        background-image: url(../../img/icon_changelink.gif);
+    }
+
+    &.related-lookup-filer {
+        background-image: url(../../img/selector-search.gif);
+    }
+}

@@ -1,0 +1,171 @@
+// normal and stacked inline
+div.form-row {
+    .fg-related-widget-wrapper {
+        @media (min-width: 768px) {
+            // non floating forms, like this:
+            //
+            // Label:     Widget
+            // Label2 ww: Widget
+            //
+            float:left !important;
+            box-sizing: border-box;
+            width: 100%;
+            margin-left: -170px;
+            padding-left: 170px;
+        }
+    }
+}
+// tabular
+tr.form-row {
+    .fg-related-widget-wrapper {
+        width: 100%;
+    }
+}
+
+.filer-gui-file-widget {
+    position: relative;
+    width: 100%;
+
+    .rawid-field {
+        display: none;
+        padding: 0 20px 0 0;
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    .fg-message {
+        display: none;
+        margin-bottom: 1em;
+        color: #ba2121;
+    }
+
+    .visible {
+        display: block;
+    }
+
+    .fg-widget {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .fg-preview {
+        flex-basis: fill;
+    }
+
+    .fg-label-tools {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 0 15px;
+        flex-basis: 2000px;
+    }
+
+    .label {
+        margin-bottom: 5px;
+        margin-right: 15px;
+        display: block;
+    }
+
+    .no-file {
+        white-space: nowrap;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .fg-tools {
+        margin-left: -4px;
+        //margin-bottom: 10px;
+        .label {
+            display: none;
+        }
+        .fg-button {
+            margin-bottom: 10px;
+        }
+    }
+
+    .uploader {
+        flex-basis: 1500px;
+        align-self: stretch;
+        margin: 0;
+        padding: 0px 20px;
+        background-color: #fdfdfd;
+        border: 1px solid #ccc;
+        transition: width 0.5s;
+        min-height: 40px;
+        &:before {
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            width: 1px;
+            height: 100%;
+            margin-left: -1px;
+        }
+    }
+
+    .file-type-error {
+        background-color: #CC3434;
+
+        .dz-file-type-error {
+            display: block;
+        }
+
+        .dz-message {
+            display: none;
+        }
+    }
+
+    // dropzonw
+    .dz-messages {
+        display: inline-block;
+        width: 100%;
+        vertical-align: middle;
+        color: #999;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .dz-file-type-error {
+        display: none;
+        margin: 4px;
+        color: #fff;
+        font-size: 1.25em;
+    }
+
+    .dz-accepted {
+        width: 100%;
+
+        .dz-messages {
+            display: none;
+        }
+    }
+
+    .dz-preview {
+        display: inline-block;
+        //display: none;
+        vertical-align: middle;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .dz-progress {
+        position: relative;
+        width: 100%;
+        height: 5px;
+        margin: 4px 0 0;
+    }
+
+    .dz-upload {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+        height: 100%;
+        width: 10px;
+        background-color: #79aec8;
+    }
+}

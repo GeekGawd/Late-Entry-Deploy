@@ -1,0 +1,11 @@
+@import "vars";
+
+@import "icons";
+@import "buttons";
+
+// too much code? let's check
+@import "inlines/upload_inline";
+@import "widgets/files";
+
+@import "admin_styles";
+@import "djangocms_admin_style";

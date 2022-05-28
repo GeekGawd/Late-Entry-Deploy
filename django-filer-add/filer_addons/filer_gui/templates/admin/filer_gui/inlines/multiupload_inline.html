@@ -1,0 +1,23 @@
+<div
+    class="filer-gui-multiupload-inline {{ inline_admin_formset.opts.extra_css_class }}"
+    {{ inline_admin_formset.opts.dropzone_html_attrs }}
+    data-file-field="{{ inline_admin_formset.opts.file_field }}"
+    {% if inline_admin_formset.opts.is_filer_gui_field %}data-is-filer-gui-field="true"{% endif %}
+    {% if inline_admin_formset.opts.is_image_field %}data-is-image-field="true"{% endif %}
+    data-csrf="{{ csrf_token }}"
+    data-prefix="{{ inline_admin_formset.formset.prefix }}"
+    {% if inline_admin_formset.opts.is_filer_gui_field %}
+        data-upload-url="{% url 'admin:file_upload' %}"
+    {% else %}
+        data-upload-url="{% url 'admin:filer-ajax_upload' %}"
+    {% endif %}
+{#    data-upload-url="/admin/filer/clipboard/operations/upload/no_folder/"#}
+>
+    <div class="filer-gui-multiupload-dropzone">
+        <span>Drop files here. Or
+            <a class="select-file">select files from your computer</a>
+            <!--. Or <a href="/not-yet/">browse uploaded files</a>.-->
+        </span>
+    </div>
+    {% block django_inline %}{% endblock %}
+</div>

@@ -1,0 +1,52 @@
+.fg-button,
+
+a.fg-button {
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    padding: 8px 10px;
+    line-height: 15px;
+    margin: 0 10px 0 0;
+    border: none;
+    background: none;
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+
+    &:hover,
+    &:active,
+    &:focus {
+        background-color: transparent;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+    }
+
+    &.inactive {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+    &.add-related-filer {
+        background-image: url(../../img/icon-addlink.svg);
+    }
+
+    &.edit-related-filer {
+        background-image: url(../../img/icon-changelink.svg);
+    }
+    &.remove-related-filer {
+        background-image: url(../../img/icon-deletelink.svg);
+    }
+
+    &.related-lookup-filer {
+        background-image: url(../../img/search.svg);
+    }
+
+    .svg-icon {
+        display: none;
+        fill: #fff;
+    }
+}

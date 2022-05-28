@@ -13,8 +13,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('Auth', '0001_initial'),
-        migrations.swappable_dependency(settings.FILER_IMAGE_MODEL),
-        ('filer', '0016_alter_clipboard_id_alter_clipboarditem_id_and_more'),
+        migrations.swappable_dependency(settings.FILER_IMAGE_MODEL)
     ]
 
     operations = [

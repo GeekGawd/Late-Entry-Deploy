@@ -200,3 +200,5 @@ FILER_STORAGES = {
 }
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
+
+CSRF_TRUSTED_ORIGINS = ['https://*.mydomain.com','https://*.127.0.0.1', "https://*.azurewebsites.net/"]

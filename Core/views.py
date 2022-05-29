@@ -20,7 +20,7 @@ class Scan(APIView):
         if valid:
             if "venue" in data:
                 try:
-                    LateEntry.objects.create(student_id=int(data['student_no']),timestamp=data['timestamp'], venue_id=data['venue'])
+                    LateEntry.objects.create(student_id=data['student_no'],timestamp=data['timestamp'], venue_id=data['venue'])
                     return Response(status=261)
                 except IntegrityError:
                     return Response(status=460)

@@ -79,23 +79,23 @@ WSGI_APPLICATION = 'Project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': env("POSTGRES_NAME"),
-#         'USER': env("POSTGRES_USER"),
-#         'PASSWORD': env("POSTGRES_PASSWORD"),
-#         'HOST': "localhost",
-#         'PORT': env("POSTGRES_PORT"),
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env("POSTGRES_NAME"),
+        'USER': env("POSTGRES_USER"),
+        'PASSWORD': env("POSTGRES_PASSWORD"),
+        'HOST': "localhost",
+        'PORT': env("POSTGRES_PORT"),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -179,9 +179,9 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-REST_FRAMEWORK = {
-  'EXCEPTION_HANDLER': 'utils.custom_exception_handler.handle_exception'
-}
+# REST_FRAMEWORK = {
+#   'EXCEPTION_HANDLER': 'utils.custom_exception_handler.handle_exception'
+# }
 
 FILER_FILE_MODELS = ('Core.CustomImage','Core.FilerAdmin')
 FILER_DEBUG = True

@@ -18,11 +18,8 @@ class Scan(APIView):
         exists = LateEntry.objects.filter(timestamp__date=timezone.now()).filter(student_id=data['student_no'])
         if not exists:
             if "venue" in data:
-                try:
-                    LateEntry.objects.create(student_id=data['student_no'],venue_id=data['venue'])
-                    return Response(status=261)
-                except:
-                    return Response(status=460)
+                LateEntry.objects.create(student_id=int(data['student_no']),timestamp=data['timestamp'], venue_id=data['venue'])
+                return Response(status=261)
             else:
                 return Response(status=461)
         else:

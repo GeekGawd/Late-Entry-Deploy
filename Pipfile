@@ -18,6 +18,7 @@ django-multiupload = "*"
 easy-thumbnails = "*"
 django-filer = "*"
 faker = "*"
+whitenoise = "*"
 
 [dev-packages]
 

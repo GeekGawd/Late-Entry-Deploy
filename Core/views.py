@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from rest_framework import status, generics, mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,11 +16,14 @@ class Scan(APIView):
     permission_classes = [AllowAny]
     def post(self, request, format=None):
         data=request.data
-        exists = LateEntry.objects.filter(timestamp__date=timezone.now()).filter(student_id=data['student_no'])
-        if not exists:
+        valid = Student.objects.late_entry_valid(data)
+        if valid:
             if "venue" in data:
-                LateEntry.objects.create(student_id=int(data['student_no']),timestamp=data['timestamp'], venue_id=data['venue'])
-                return Response(status=261)
+                try:
+                    LateEntry.objects.create(student_id=int(data['student_no']),timestamp=data['timestamp'], venue_id=data['venue'])
+                    return Response(status=261)
+                except IntegrityError:
+                    return Response(status=460)
             else:
                 return Response(status=461)
         else:

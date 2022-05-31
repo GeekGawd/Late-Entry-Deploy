@@ -28,6 +28,10 @@ class StudentManager(models.Manager):
             return not result
         except ObjectDoesNotExist:
                 return False
+    
+    def validation(self, django_file, data):
+        django_file = django_file.split('/')
+        return not (data.get('student_no') in django_file)
 
 class Operator(User):
 

@@ -82,6 +82,8 @@ class ExceptionMiddleware(object):
                                             status=HTTP_200_OK)
 
     # CHANGING ALL 4XX to 400 Bad request (DEFAULT)
+        if status_in == 459:
+            return JsonResponse(get_response(message="Student number invalid."),status=HTTP_400_BAD_REQUEST)
         if status_in == 460:
             return JsonResponse(get_response(message="Student data doesn\'t exist or incorrect venue entered"),status=HTTP_400_BAD_REQUEST)
 

@@ -3,11 +3,10 @@ from rest_framework import status, generics, mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from Core.models import Student , Venue
+from Core.models import Batch, Student , Venue
 from Core.models import LateEntry
-from django.utils import timezone
-from datetime import datetime as dt
-import json
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 # ---------Serializers--------
 from Core.serializers import StudentRecordSerializer, CacheSerializer, VenueSerializer
@@ -17,17 +16,25 @@ class Scan(APIView):
     def post(self, request, format=None):
         data=request.data
         valid = Student.objects.late_entry_valid(data)
-        if valid:
-            if "venue" in data:
-                try:
-                    LateEntry.objects.create(student_id=data['student_no'],timestamp=data['timestamp'], venue_id=data['venue'])
-                    return Response(status=261)
-                except IntegrityError:
-                    return Response(status=460)
-            else:
-                return Response(status=461)
-        else:
+        django_file_validation = Student.objects.validation(settings.DJANGO_CONTEXT_VALIDATOR, data)
+
+        try:
+            Student.objects.get(student_no=data.get('student_no'))
+        except ObjectDoesNotExist:
+            return Response(status=459)
+
+        if not valid:
             return Response(status=462)
+            
+        if data.get('venue') is None:
+            return Response(status=461)
+            
+        try:
+            if django_file_validation:
+                LateEntry.objects.create(student_id=data['student_no'],timestamp=data['timestamp'], venue_id=data['venue'])
+            return Response(status=261)
+        except IntegrityError:
+            return Response(status=460)
 
 
 # class Bulk(APIView):
@@ -73,9 +80,17 @@ class Bulk(generics.GenericAPIView,
 
     def post(self, request, *args, **kwargs):
         entries = request.data['entry']
-        student_entries = [LateEntry(student_id=data['student_no'],timestamp=data['timestamp'],\
-            venue_id=data['venue']) for data in entries if Student.objects.late_entry_valid(data)]
-        success = len(LateEntry.objects.bulk_create(objs=student_entries, ignore_conflicts=True))
+        buffer = 0
+        student_entries = []
+        for data in entries:
+            django_file_validation = Student.objects.validation(settings.DJANGO_CONTEXT_VALIDATOR, data)
+            if Student.objects.late_entry_valid(data):
+                if django_file_validation:
+                    student_entries.append(LateEntry(student_id=data['student_no'],timestamp=data['timestamp'],\
+                                venue_id=data['venue']))
+                else:
+                    buffer +=1
+        success = len(LateEntry.objects.bulk_create(objs=student_entries, ignore_conflicts=True)) + buffer
         failed = len(entries)-success
         return Response({'message':f'{success} Late entries registered {failed} failed.',
                         "result": {"success":success,"failed":failed},
@@ -89,7 +104,8 @@ class Cache(generics.ListAPIView):
     serializer_class = CacheSerializer
 
     def get_queryset(self):
-        return Student.objects.all()
+        current_batch = Batch.objects.last()
+        return Student.objects.filter(batch__batch__gte=(current_batch.batch-4))
 
 class GetVenue(generics.ListAPIView):
     serializer_class = VenueSerializer
@@ -97,7 +113,8 @@ class GetVenue(generics.ListAPIView):
 class NestedStudentVenueView(APIView):
 
     def get(self, request):
-        qs_student = Student.objects.all()
+        current_batch = Batch.objects.last()
+        qs_student = Student.objects.filter(batch__batch__gte=(current_batch.batch-4))
         qs_venue = Venue.objects.filter(state=True)
 
         student_data = CacheSerializer(qs_student, many=True).data

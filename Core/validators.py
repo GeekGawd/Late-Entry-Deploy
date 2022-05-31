@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
     
 class student_no_re(RegexValidator):
-    regex = r'^[0-9A-Z]{1,11}$'
+    regex = r'^[0-9A-Z]{1,11}(d|D|)[-]?[mdlMDL]?$'
     message = 'Student no should only contain digits and uppercase alphabets. Max characters upto 11'
 
 class student_name_re(RegexValidator):

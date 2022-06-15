@@ -87,33 +87,6 @@ class LateEntryAdmin(ImportExportModelAdmin):
     resource_class = LateEntryResource
     list_display = ('student', 'venue', 'timestamp')
 
-# class StudentImageAdmin(ImportMixin, admin.ModelAdmin):
-#     resource_class = StudentImageResource
-
-class ImageForm(ModelForm):
-    additional_images = MultiFileField(min_num=1,required=False)
-
-    class Meta:
-        model = Batch
-        fields = "__all__"
-
-    def save(self, commit=True): # It may be better to do that in  save_m2m for newly created objects
-        save = super().save(commit)
-        try:
-            for image in self.cleaned_data["additional_images"]:
-                    saved_image = StudentImage(batch=save, image=image)
-                    saved_image.save()
-        except ValueError:
-            return ValidationError("First Create a Batch then upload the Images")
-        return save
-
-
-# class StudentImageAdmin(admin.StackedInline):
-#     model = StudentImage
-
-class BatchAdmin(admin.ModelAdmin):
-    form = ImageForm
-    # inlines = [StudentImageAdmin]
 
 class UserAdmin(BaseUserAdmin):
 
@@ -146,14 +119,13 @@ class UserAdmin(BaseUserAdmin):
     ordering = ['email']
     filter_horizontal = ()
 
-    # # The forms to add and change user instances
-    # form = UserAdminChangeForm
+    # The forms to add and change user instances
     # add_form = UserAdminCreationForm
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(StudentImage)
 admin.site.register(LateEntry, LateEntryAdmin)
-admin.site.register(Batch, BatchAdmin)
+admin.site.register(Batch)
 admin.site.register(Branch)
 admin.site.register(Venue)

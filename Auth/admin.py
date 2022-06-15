@@ -28,7 +28,7 @@ class LateEntryResource(resources.ModelResource):
         fields = ('timestamp',)
     
     def dehydrate_student_number(self, instance):
-        return instance.student.student_number
+        return instance.student.student_no
     
     def dehydrate_student_name(self, instance):
         return instance.student.name

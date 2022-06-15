@@ -57,3 +57,5 @@ staff_login.register(Branch)
 staff_login.register(Batch)
 staff_login.register(Venue)
 staff_login.register(LateEntry, LateEntryAdmin)
+
+#for deploy

@@ -10,9 +10,6 @@ from import_export.fields import Field
 from import_export import resources
 from import_export.widgets import ForeignKeyWidget
 
-from Core.serializers import StudentIDSerializer
-from Auth.sqldelete import cascade_delete
-
 
 User = get_user_model()
 

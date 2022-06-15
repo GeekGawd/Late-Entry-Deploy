@@ -143,3 +143,4 @@ Pipfile.lock
 
 #load-testing related
 locustfile.py
+*.xlsx

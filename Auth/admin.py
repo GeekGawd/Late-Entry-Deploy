@@ -8,6 +8,10 @@ from multiupload.fields import MultiFileField
 from django.forms import ModelForm
 from import_export.fields import Field
 from import_export import resources
+from import_export.widgets import ForeignKeyWidget
+
+from Core.serializers import StudentIDSerializer
+from Auth.sqldelete import cascade_delete
 
 
 User = get_user_model()
@@ -27,7 +31,7 @@ class LateEntryResource(resources.ModelResource):
         fields = ('timestamp',)
     
     def dehydrate_student_number(self, instance):
-        return instance.student.st_no
+        return instance.student.student_number
     
     def dehydrate_student_name(self, instance):
         return instance.student.name
@@ -37,6 +41,50 @@ class LateEntryResource(resources.ModelResource):
     
     def dehydrate_late_count(self, instance):
         return instance.student.late_entry.all().count()
+
+class StudentResource(resources.ModelResource):
+    branch = Field(
+        attribute='branch',
+        column_name='branch',
+        widget=ForeignKeyWidget(Branch,'name')
+        )
+    batch = Field(
+        attribute='batch',
+        column_name='batch',
+        widget=ForeignKeyWidget(Batch,'batch')
+        )
+    
+    class Meta:
+        model = Student
+        fields = ['student_no', 'name']
+        export_order = ['student_no', 'name', 'branch', 'batch']
+        import_id_fields = ('student_no', 'name', 'branch', 'batch')
+    
+    def init_instance(self, row=None):
+        params = {}
+        for key in self.get_import_id_fields():
+            field = self.fields[key]
+            cleaned_row = field.clean(row)
+            params[field.attribute] = field.clean(row)
+        student, flag = Student.objects.get_or_create(**params)
+        return student
+    
+    def dehydrate_branch(self, instance):
+        print(instance)
+        return instance.branch.name
+    
+    def dehydrate_batch(self, instance):
+        return instance.batch.batch
+
+class StudentAdmin(ImportExportModelAdmin):
+    resource_class = StudentResource
+
+    def delete_model(self, request, obj) -> None:
+        obj.student_image.delete()
+        return obj.delete()
+    
+    def delete_queryset(self, request, queryset) -> None:
+        queryset.delete()
 
 class LateEntryAdmin(ImportExportModelAdmin):
     resource_class = LateEntryResource
@@ -63,12 +111,12 @@ class ImageForm(ModelForm):
         return save
 
 
-class StudentImageAdmin(admin.StackedInline):
-    model = StudentImage
+# class StudentImageAdmin(admin.StackedInline):
+#     model = StudentImage
 
 class BatchAdmin(admin.ModelAdmin):
     form = ImageForm
-    inlines = [StudentImageAdmin]
+    # inlines = [StudentImageAdmin]
 
 class UserAdmin(BaseUserAdmin):
 
@@ -106,7 +154,7 @@ class UserAdmin(BaseUserAdmin):
     # add_form = UserAdminCreationForm
 
 admin.site.register(User, UserAdmin)
-admin.site.register(Student)
+admin.site.register(Student, StudentAdmin)
 admin.site.register(StudentImage)
 admin.site.register(LateEntry, LateEntryAdmin)
 admin.site.register(Batch, BatchAdmin)

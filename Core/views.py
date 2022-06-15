@@ -12,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from Core.serializers import StudentRecordSerializer, CacheSerializer, VenueSerializer
 
 class Scan(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self, request, format=None):
         data=request.data
         valid = Student.objects.late_entry_valid(data)
@@ -77,7 +77,7 @@ class Scan(APIView):
 
 class Bulk(generics.GenericAPIView,
            mixins.CreateModelMixin):
-
+    permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
         entries = request.data['entry']
         buffer = 0
@@ -102,16 +102,18 @@ class Bulk(generics.GenericAPIView,
 
 class Cache(generics.ListAPIView):
     serializer_class = CacheSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         current_batch = Batch.objects.last()
         return Student.objects.filter(batch__batch__gte=(current_batch.batch-4))
 
 class GetVenue(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = VenueSerializer
     
 class NestedStudentVenueView(APIView):
-
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         current_batch = Batch.objects.last()
         qs_student = Student.objects.filter(batch__batch__gte=(current_batch.batch-4))

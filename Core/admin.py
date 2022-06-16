@@ -52,7 +52,6 @@ staff_login = StaffAdminArea(name="StaffAdmin")
 
 staff_login.register(Operator, StaffUserAdmin)
 staff_login.register(Student)
-staff_login.register(StudentImage)
 staff_login.register(Branch)
 staff_login.register(Batch)
 staff_login.register(Venue)

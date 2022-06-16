@@ -16,6 +16,7 @@ from django.urls import reverse
 from django.db.models import Q
 from django.utils import timezone
 from datetime import datetime
+from filer.models import Folder
 
 class StudentManager(models.Manager):
     
@@ -66,6 +67,10 @@ class Batch(models.Model):
     def clean(self) -> None:
         if self.batch < 1998:
             raise ValidationError("The Batches cannot be made before college establishment.") 
+    
+    def save(self, *args, **kwargs):
+        Folder.objects.create(name=str(self))
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Batches"
@@ -103,23 +108,6 @@ class LateEntry(models.Model):
     
     def __str__(self):
         return str(self.student.name)+'_'+str(self.student.student_no)
-
-class StudentImage(models.Model):
-    def get_image_path(self, filename):
-        return f'student/{self.batch.batch}/{filename}'
-    student = models.ForeignKey(Student, null=True, blank=True, on_delete=models.CASCADE)
-    batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
-    # image = models.FileField(upload_to = get_image_path)
-    img = FilerImageField(null=True,blank=True, on_delete=models.CASCADE)
-
-    # def save(self, *args, **kwargs):
-    #     # call the compress function
-    #     new_image = compress(self.image)
-    #     # set self.image to new_image
-    #     self.image = new_image
-    #     # save
-    #     super().save(*args, **kwargs)
-
 
 class CustomImage(BaseImage):
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE, null=True)

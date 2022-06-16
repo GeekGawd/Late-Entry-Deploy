@@ -124,7 +124,6 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Student, StudentAdmin)
-admin.site.register(StudentImage)
 admin.site.register(LateEntry, LateEntryAdmin)
 admin.site.register(Batch)
 admin.site.register(Branch)

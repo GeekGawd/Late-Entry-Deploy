@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('Auth', '0001_initial'),
-        ('filer', '0016_alter_clipboard_id_alter_clipboarditem_id_and_more'),
     ]
 
     operations = [
